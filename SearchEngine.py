@@ -1,5 +1,5 @@
 import os
-import DatabaseSettingup
+import Database
 
 
 def queryProcess(query):

@@ -4,23 +4,17 @@ import pandas as pd
 
 
 # Id,Name,CustomName,Quality,Description,ItemHeader,Class,WikiId,OwnerUrl,OwnerSteamId,IconId
-def main():
+def dataBaseSearch(query):
     connection = sqlite3.connect('mainitem.db')
-
     cursor = connection.cursor()
-
     cursor.execute('''DROP TABLE IF EXISTS items''')
-
     command_create_table = '''CREATE VIRTUAL TABLE items USING fts5(Id, Name, CustomName, Quality, Description, 
-                                ItemHeader, Class, WikiId, OwnerUrl, OwnerSteamId, IconId)'''
+                                ItemHeader, Class, WikiId, OwnerUrl, OwnerSteamId, IconId, 
+                                tokenize = 'porter ascii')'''
 
     cursor.execute(command_create_table)
 
     df = pd.read_csv('formattedDataset.csv')
-
-    # print(df.head(5))
-    # print(df.shape)
-    # print(df.columns)
 
     column = ['Id', 'Name', 'CustomName', 'Quality', 'Description', 'ItemHeader',
               'Class', 'WikiId', 'OwnerUrl', 'OwnerSteamId', 'IconId']
@@ -47,7 +41,6 @@ def main():
     for row_data in rows_data:
         try:
             cursor.execute(command_insert_data, row_data)
-            print('Successfully Insert')
         except:
             e = sys.exc_info()[0]
             print('Insert error %s (in %s)' % (e, row_data))
@@ -55,14 +48,25 @@ def main():
 
     # SELECT * FROM fts WHERE fts MATCH ? ORDER BY bm25(fts)
     # Set up the ranking algorithm
-    # SELECT items(Id, 2, '<b>', '</b>') FROM items WHERE description MATCH 'fts5'
+    # SELECT items(Id, 2, '<b>', '</b>') FROM items WHERE description MATCH 'item'
 
-    command_select_table = ''' SELECT * FROM items '''
+    # query will be collect from search engine bar
+    # Id, Name, CustomName, Quality, Description, ItemHeader, Class, WikiId, OwnerUrl, OwnerSteamId, IconId
+    # ranking by bm25
+    # command_select_table = (''' SELECT * FROM items WHERE items MATCH '%s' ORDER BY bm25(items)''' % query)
+    # regular search regular ranking
+    # command_select_table = (''' SELECT * FROM items WHERE items MATCH '%s' ORDER BY rank ''' % query)
+
+    command_select_table = ('''SELECT   highlight(items,0, '<b>', '</b>')Name, 
+                                        highlight(items,1, '<b>', '</b>')CustomName,
+                                        highlight(items,2, '<b>', '</b><br>')Description, 
+                                        *
+                                FROM items
+                                WHERE items MATCH '%s' 
+                                ORDER BY bm25(items)
+                                ''' % query)
+
     cursor.execute(command_select_table)
     result = cursor.fetchall()
-    for re in result:
-        print(re)
 
-
-if __name__ == '__main__':
-    main()
+    return result

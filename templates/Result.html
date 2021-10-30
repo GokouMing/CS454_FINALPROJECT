@@ -5,6 +5,11 @@
     <title>Result</title>
 </head>
 <body>
-
+    {% for que in query %}
+        <p>
+            {{que|safe}}
+                </p>
+    {% endfor %}
+    <b>bond font</b>
 </body>
 </html>
