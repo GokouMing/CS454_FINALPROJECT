@@ -18,6 +18,10 @@ def main():
 
     df = pd.read_csv('formattedDataset.csv')
 
+    # print(df.head(5))
+    # print(df.shape)
+    # print(df.columns)
+
     column = ['Id', 'Name', 'CustomName', 'Quality', 'Description', 'ItemHeader',
               'Class', 'WikiId', 'OwnerUrl', 'OwnerSteamId', 'IconId']
 
@@ -50,9 +54,6 @@ def main():
             continue
 
     command_select_table = ''' SELECT * FROM items '''
-    # SELECT * FROM fts WHERE fts MATCH ? ORDER BY bm25(fts)
-    # Set up the ranking algorithm
-    # SELECT items(Id, 2, '<b>', '</b>') FROM items WHERE id MATCH '5'
     cursor.execute(command_select_table)
     result = cursor.fetchall()
     for re in result:
