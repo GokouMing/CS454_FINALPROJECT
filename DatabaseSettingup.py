@@ -53,6 +53,10 @@ def main():
             print('Insert error %s (in %s)' % (e, row_data))
             continue
 
+    # SELECT * FROM fts WHERE fts MATCH ? ORDER BY bm25(fts)
+    # Set up the ranking algorithm
+    # SELECT items(Id, 2, '<b>', '</b>') FROM items WHERE description MATCH 'fts5'
+
     command_select_table = ''' SELECT * FROM items '''
     cursor.execute(command_select_table)
     result = cursor.fetchall()
@@ -62,4 +66,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
