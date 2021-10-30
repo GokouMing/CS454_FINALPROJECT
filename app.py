@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import searchEngine
 import autoComplete
-import re
 
 app = Flask(__name__)
 
