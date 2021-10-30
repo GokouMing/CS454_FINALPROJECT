@@ -1,3 +1,4 @@
+import time
 import Database
 
 
@@ -21,7 +22,7 @@ def querySearch(query):
     #                             WHERE items MATCH '%s'
     #                             ORDER BY rank)
     #                             ''' % query)
-
+    s = time.time()
     Database.dataBaseSetUp()
 
     command_select_table = ('''SELECT   highlight(items,0, '<b>', '</b>')Name, 
@@ -39,4 +40,6 @@ def querySearch(query):
     Database.cursor.execute(command_select_table)
     result = Database.cursor.fetchall()
 
+    e = time.time()
+    print(f'Search Time Cost {e - s:.5f}')
     return result

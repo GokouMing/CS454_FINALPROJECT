@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
-import SearchEngine
+import searchEngine
+import autoComplete
 
 app = Flask(__name__)
 
@@ -9,15 +10,22 @@ def homePage():  # put application's code here
     if request.method == 'POST':
         query = request.form.get('inputWords')
         if not query:
-            return 'ERROR 404'
-        elif query is None:
-            return '<h1>No Result<h1>'
+            return render_template('index.html')
         else:
-            rel = SearchEngine.querySearch(query)
-            return render_template('Result.html', query=rel)
+            rel = searchEngine.querySearch(query)
+            if not rel:
+                return '<h1>No Result<h1>'
+            else:
+                return render_template('Result.html', query=rel)
+    elif request.method == 'GET':
+        auto = autoComplete.autoComplete()
+        print(type(auto))
+        return render_template('index.html', languages=auto)
     else:
         return render_template('index.html')
 
 
 if __name__ == '__main__':
+
     app.run()
+
