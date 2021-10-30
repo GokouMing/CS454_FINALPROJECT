@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-import Database
 import SearchEngine
 
 app = Flask(__name__)
@@ -14,7 +13,7 @@ def homePage():  # put application's code here
         elif query is None:
             return '<h1>No Result<h1>'
         else:
-            rel = Database.dataBaseSearch(query)
+            rel = SearchEngine.querySearch(query)
             return render_template('Result.html', query=rel)
     else:
         return render_template('index.html')
