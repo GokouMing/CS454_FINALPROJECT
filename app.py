@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import searchEngine
 import autoComplete
+import re
 
 app = Flask(__name__)
 
@@ -8,7 +9,12 @@ app = Flask(__name__)
 def fliterList(Lists):
     # tuple list to list
     lists = [item for items in Lists for item in items]
-    return lists
+    newlist = []
+    for list in lists:
+        list = re.sub(r'\\', '',list)
+        newlist.append(list)
+
+    return newlist
 
 
 @app.route('/', methods=['POST', 'GET'])

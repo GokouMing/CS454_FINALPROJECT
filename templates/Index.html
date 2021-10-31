@@ -11,7 +11,20 @@
     </script>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
         rel="stylesheet" type="text/css" />
+    <style>
+  .ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    }
+  * html .ui-autocomplete {
+    height: 300px;
+    }
+    </style>
+
 </head>
+
 <body>
 <div id="container">
     <div id="bd">
@@ -19,28 +32,28 @@
             <h1 class="title">
                 <div class="logo large"></div>
             </h1>
-            <div class="nav ue-clear">
-
-            </div>
+            <div class="nav ue-clear"></div>
 
             <div class="inputArea">
             <form method="post" action="#" enctype="multipart/form-data">
                 <input type="text" name="inputWords" id = "tags" class="searchInput">
+                <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+                <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
                 <script>
-                    $( function() {
-                        var availableTags = [
-                            {% for language in languages[:10] %}
-                                "{{language}}",
-                            {% endfor %}
-                            ];
+                    var availableTags = [
+                        {% for language in languages %}
+                            "{{language|safe}}",
+                        {% endfor %}
+                        ];
                     $("#tags").autocomplete({
-                        source: availableTags
+                        source: function(Req, Resp) {
+                            var Result = $.ui.autocomplete.filter(availableTags, Req.term);
+                            Resp(Result.slice(0, 10));
+                    }
                     });
-                    } );
                 </script>
                 <button class="searchButton" type="submit", value="Search"></button>
             </form>
-            </div>
 
         </div><!-- End of main -->
     </div><!--End of bd-->
@@ -51,6 +64,7 @@
         </div>
     </div>
 
+</div>
 </div>
 </body>
 </html>
