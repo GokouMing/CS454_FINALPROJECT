@@ -1,33 +1,16 @@
 import time
 import Database
 import re
+import string
+
 
 def querySearch(query):
-    # query will be collect from search engine bar
-    # Id, Name, CustomName, Quality, Description, ItemHeader, Class, WikiId, OwnerUrl, OwnerSteamId, IconId
-    # ranking by bm25
 
-    # command_select_table = (''' SELECT * FROM items WHERE items MATCH '%s' ORDER BY bm25(items)''' % query)
-    # regular search regular ranking
-    # command_select_table = (''' SELECT * FROM items WHERE items MATCH '%s' ORDER BY rank ''' % query)
-
-    # SELECT * FROM fts WHERE fts MATCH ? ORDER BY bm25(fts)
-    # Set up the ranking algorithm
-
-    # command_select_table = ('''SELECT   highlight(items,0, '<b>', '</b>')Name,
-    #                                     highlight(items,1, '<b>', '</b>')CustomName,
-    #                                     highlight(items,2, '<b>', '</b><br>')Description,
-    #                                     *
-    #                             FROM items
-    #                             WHERE items MATCH '%s'
-    #                             ORDER BY rank)
-    #                             ''' % query)
     s = time.time()
 
     # query filter
     Database.dataBaseSetUp()
-    reg = "&*%*'()[];"
-    p = re.compile("[" + re.escape(reg) + "]")
+    p = re.compile("[" + re.escape(string.punctuation) + "]")
     query = p.sub(" ", query)
     # query filter if conatains '%$&\/'
 

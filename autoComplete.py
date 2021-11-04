@@ -9,6 +9,6 @@ def autoComplete():
                                 FROM items''')
 
     Database.cursor.execute(command_select_table)
-    autodata = Database.cursor.fetchall()
+    automata_data = Database.cursor.fetchall()
 
-    return autodata
+    return automata_data
