@@ -11,7 +11,7 @@ def fliterList(Lists):
     lists = [item for items in Lists for item in items]
     newlist = []
     for list in lists:
-        list = re.sub(r'\\', '',list)
+        list = re.sub(r'\\', '', list)
         newlist.append(list)
 
     return newlist
@@ -20,7 +20,7 @@ def fliterList(Lists):
 @app.route('/', methods=['POST', 'GET'])
 def homePage():  # put application's code here
     if request.method == 'POST':
-        query = request.form.get('inputWords')
+        query = request.form.get(r'inputWords')
         if not query:
             return render_template('index.html')
         else:

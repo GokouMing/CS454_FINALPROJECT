@@ -1,6 +1,6 @@
 import time
 import Database
-
+import re
 
 def querySearch(query):
     # query will be collect from search engine bar
@@ -23,7 +23,13 @@ def querySearch(query):
     #                             ORDER BY rank)
     #                             ''' % query)
     s = time.time()
+
+    # query filter
     Database.dataBaseSetUp()
+    reg = "&*%*'()[];"
+    p = re.compile("[" + re.escape(reg) + "]")
+    query = p.sub(" ", query)
+    # query filter if conatains '%$&\/'
 
     command_select_table = ('''SELECT   highlight(items,0, '<b>', '</b>')Name, 
                                         highlight(items,1, '<b>', '</b>')CustomName,
@@ -33,10 +39,10 @@ def querySearch(query):
                                         highlight(items,5, '<b>', '</b><br>')Class,
                                         WikiId, OwnerUrl, OwnerSteamId, IconId 
                                 FROM items
-                                WHERE items MATCH '%s' 
+                                WHERE items MATCH " %s " 
                                 ORDER BY bm25(items)
                                 ''' % query)
-
+    print(query)
     Database.cursor.execute(command_select_table)
     result = Database.cursor.fetchall()
 
