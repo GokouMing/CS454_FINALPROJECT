@@ -7,7 +7,10 @@
 <body>
     {% for que in query %}
         <p>
-            {{que|safe}}
+            <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{que[0][9]}}">
+            {{que[0][1]|safe}}
+            <a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{que[0][6]}}">Wiki Link</a>
+            {{que | length}}
                 </p>
     {% endfor %}
 </body>
