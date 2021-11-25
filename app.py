@@ -26,7 +26,7 @@ def homePage():  # put application's code here
         else:
             rel, costtime = searchEngine.querySearch(query)
             return render_template('Result.html', results=rel, searchquery=query, costTime=round(costtime, 5),
-                                   number=len(rel))
+                                   number=len(rel), similar_query1=query, similar_query2=query)
     elif request.method == 'GET':
         auto = autoComplete.autoComplete()
         auto = fliterList(auto)
