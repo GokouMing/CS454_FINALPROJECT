@@ -67,8 +67,8 @@
                 <div class="sideBarShowHide">
                     <a href="javascript:;" class="icon"></a>
                 </div>
-
             </div>
+
             <div class="resultArea">
                 <p class="resultTotal">
                     <span class="info">About&nbsp;<span class="totalResult">{{ number }}</span>
@@ -76,8 +76,12 @@
                 </p>
 
                 <div class="resultList" id="resultList">
-                    {% for result in results %}
+                    {% if number == 0 %}
+                        <p>Sorry ! No Result</p>
+                        <p>Please Check <a target="_blank" href="https://steamcommunity.com/ ">STEAM</a> Official Website</p>
+                    {% endif %}
 
+                    {% for result in results %}
                         <div class="resultItem">
                             <div class="itemHead">
                                 <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" 
@@ -86,7 +90,6 @@
                                     {{ result[0][0]|safe}}
                                 </a>
                                 <span class="divsion"></span>
-
                                 <span class="dependValue">
                             	<span class="label">wikiLink：</span>
                                 <span class="value"><a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{result[0][6]}}">Team Fortress 2 Wiki</a></span>
@@ -102,11 +105,7 @@
                             <div class="itemFoot">
                         	<span class="info">
                             	<label>Quality</label>
-                                <span class="value">
-                                    <a href="{{ result[0][5]|safe }}" target="_blank">
-                                        {{ result[0][2]|safe }}
-                                    </a>
-                                </span>
+                                <span class="value">{{ result[0][2]|safe }}</span>
                             </span>
                                 <span class="info">
                             	<label>Class：</label>
@@ -118,10 +117,50 @@
                             </span>
                             </div>
                         </div>
-                    {% endfor %}
 
+{#                        <!-- PAGINATION -->#}
+{#                        {% for page_num in cve.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}#}
+{#                            {% if page_num %}#}
+{#                                {% if cve.page == page_num %}#}
+{#                                    <a class="btn btn-info mb-4" href="{{ url_for('cve_list', page=page_num) }}">{{ page_num }}</a>#}
+{#                                {% else %}#}
+{#                                    <a class="btn btn-outline-info mb-4" href="{{ url_for('cve_list', page=page_num) }}">{{ page_num }}</a>#}
+{#                                {% endif %}#}
+{#                            {% else %}#}
+{#                         {% endif %}#}
+{#                        {% endfor %}#}
+{#                        <!-- PAGINATION -->#}
+                    {% endfor %}
                 </div>
 
+                <div class="dependSearch ue-clear">
+                        <h6>Relative Result</h6>
+                        <div class="searchList">
+                            <p>
+                                {% for q in similar_query1.split() %}
+                                    <a href="/results?q={{ q }}"> {{ q }} </a>
+                                {% endfor %}
+                            </p>
+{#                            <p>#}
+{#                                {% for q in similar_query2 %}#}
+{#                                    <a href="/results?q={{ q }}"> {{ q }} </a>#}
+{#                                {% endfor %}#}
+{#                            </p>#}
+                        </div>
+                </div>
+
+                        </div>
+            <div class="historyArea">
+                <div class="hotSearch">
+                    <h6>Top Clicks</h6>
+                    <ul class="historyList">
+                        {% for query in similar_query1.split() %}
+                            <li>&nbsp;&nbsp;
+                                <a href="/results?q={{ query }}"> {{ query }} </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
 
             </div>
         </div><!-- End of main -->
@@ -133,6 +172,11 @@
 <div id="foot">Copyright &copy; Ming Xia, Jack Knudson</div>
 <script src="/static/js/jquery-1.10.2.min.js"></script>
 <script src="/static/js/textSearch.js"></script>
+
+
+<script type="text/javascript">
+    $(".results").textSearch("{{ searchquery }}")
+</script>
 
 </body>
 </html>
