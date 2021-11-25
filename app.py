@@ -22,20 +22,31 @@ def homePage():  # put application's code here
     if request.method == 'POST':
         query = request.form.get(r'inputWords')
         if not query:
-            return render_template('index.html')
+            return render_template('Index.html')
         else:
             rel, costtime = searchEngine.querySearch(query)
             if not rel:
+            
                 return '<h1>No Result<h1>'
             else:
-                return render_template('Result.html', results=rel, searchquery=query, costTime=round(costtime, 5),
+                groups = []
+                for i in range(0, len(rel)):
+                    flag = 0
+                    for j in range(0, len(groups)):
+                        if(rel[i][0] in groups[j][0][0]):
+                            groups[j].append(rel[i])
+                            flag = 1
+                    if(not flag):
+                        groups.append([rel[i]])
+                #print(groups)
+                return render_template('Result.html', results=groups, searchquery=query, costTime=round(costtime, 5),
                                        number=len(query))
     elif request.method == 'GET':
         auto = autoComplete.autoComplete()
         auto = fliterList(auto)
-        return render_template('index.html', languages=auto)
+        return render_template('Index.html', languages=auto)
     else:
-        return render_template('index.html')
+        return render_template('Index.html')
 
 
 if __name__ == '__main__':

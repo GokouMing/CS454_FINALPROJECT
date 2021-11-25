@@ -80,19 +80,21 @@
 
                         <div class="resultItem">
                             <div class="itemHead">
-                                <a href="{{ result[-3]|safe}}" target="_blank" class="title">
-                                    {{ result[0]|safe}}
+                                <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" 
+     height="auto">
+                                <a href="{{ result[0][-3]|safe}}" target="_blank" class="title">
+                                    {{ result[0][0]|safe}}
                                 </a>
                                 <span class="divsion"></span>
 
                                 <span class="dependValue">
-                            	<span class="label">wikiID：</span>
-                                <span class="value">{{ result[-1]|safe }}</span>
+                            	<span class="label">wikiLink：</span>
+                                <span class="value"><a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{result[0][6]}}">Team Fortress 2 Wiki</a></span>
                             </span>
                             </div>
                             <div class="itemBody">
-                                {{ result[3]|safe }}
-                                <a href="{{ result[-3]|safe }} " target="_blank">
+                                {{ result[0][3]|safe }}
+                                <a href="{{ result[0][-3]|safe }} " target="_blank">
                                     <span class="text">more</span>
                                     <i class="moreIcon"></i>
                                 </a>
@@ -101,18 +103,18 @@
                         	<span class="info">
                             	<label>Quality</label>
                                 <span class="value">
-                                    <a href="{{ result[5]|safe }}" target="_blank">
-                                        {{ result[2]|safe }}
+                                    <a href="{{ result[0][5]|safe }}" target="_blank">
+                                        {{ result[0][2]|safe }}
                                     </a>
                                 </span>
                             </span>
                                 <span class="info">
                             	<label>Class：</label>
-                                <span class="value">{{ result[6]|safe }}</span>
+                                <span class="value">{{ result[0][6]|safe }}</span>
                             </span>
                                 <span class="info">
                             	<label>OwnerSteamId：</label>
-                                <span class="value">{{ result[-2]|safe }}</span>
+                                <span class="value">{{ result[0][-2]|safe }}</span>
                             </span>
                             </div>
                         </div>
