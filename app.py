@@ -24,11 +24,12 @@ def homePage():  # put application's code here
         if not query:
             return render_template('index.html')
         else:
-            rel = searchEngine.querySearch(query)
+            rel, costtime = searchEngine.querySearch(query)
             if not rel:
                 return '<h1>No Result<h1>'
             else:
-                return render_template('Result.html', query=rel)
+                return render_template('Result.html', results=rel, searchquery=query, costTime=round(costtime, 5),
+                                       number=len(query))
     elif request.method == 'GET':
         auto = autoComplete.autoComplete()
         auto = fliterList(auto)

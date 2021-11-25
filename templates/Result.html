@@ -3,12 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <title>Result</title>
+    <link href="/static/css_templates/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css_templates/result.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-    {% for que in query %}
-        <p>
-            {{que|safe}}
+
+    <div id="hd" class="ue-clear">
+        <a href="/index/">
+            <div class="logo"></div>
+        </a>
+        <div class="inputArea">
+            <form method="post" action="#" enctype="multipart/form-data">
+                <input type="text" name="query" class="searchInput", value="{{ searchquery }}"/>
+                <button class="searchButton" type="submit", value="Search"></button>
+            </form>
+        </div>
+    </div>
+
+    <div id="bd" class="ue-clear">
+        <div id="main">
+            <div class="sideBar">
+
+                <div class="subfield">Sort By</div>
+                <ul class="subfieldContext">
+                    <li>
+                        <a href="/results?q={{ query }}&page=1&order=sim"
+                           class="byDependence">BM25</a>
+                    </li>
+                    <li>
+                        <a href="/results?q={{ query }}&page=1&order=time"
+                           class="byTime">Time</a>
+
+                    </li>
+                    <li>
+                        <a href="/results?q={{ query }}&page=1&order=view"
+                           class="byDependence">Frequently</a>
+                    </li>
+
+                </ul>
+                <div class="subfield">Relative</div>
+                <ul class="subfieldContext">
+                    <li>
+                        <span class="name">
+                            <a target="_blank" href="https://www.wiki.com/">
+                            &nbsp;Wiki Search
+                            </a>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">
+                            <a target="_blank" href="https://www.google.com/">
+                                &nbsp;Google
+                            </a>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">
+                            <a target="_blank" href="/index/">
+                                &nbsp;TF2 Advance Search
+                            </a></span>
+                    </li>
+                </ul>
+                <div class="sideBarShowHide">
+                    <a href="javascript:;" class="icon"></a>
+                </div>
+
+            </div>
+            <div class="resultArea">
+                <p class="resultTotal">
+                    <span class="info">About&nbsp;<span class="totalResult">{{ number }}</span>
+                        &nbsp;results (<span class="time">{{ costTime }}</span>seconds)</span>
                 </p>
-    {% endfor %}
+
+                <div class="resultList" id="resultList">
+                    {% for result in results %}
+
+                        <div class="resultItem">
+                            <div class="itemHead">
+                                <a href="{{ result[-3]|safe}}" target="_blank" class="title">
+                                    {{ result[0]|safe}}
+                                </a>
+                                <span class="divsion"></span>
+
+                                <span class="dependValue">
+                            	<span class="label">wikiID：</span>
+                                <span class="value">{{ result[-1]|safe }}</span>
+                            </span>
+                            </div>
+                            <div class="itemBody">
+                                {{ result[3]|safe }}
+                                <a href="{{ result[-3]|safe }} " target="_blank">
+                                    <span class="text">more</span>
+                                    <i class="moreIcon"></i>
+                                </a>
+                            </div>
+                            <div class="itemFoot">
+                        	<span class="info">
+                            	<label>Quality</label>
+                                <span class="value">
+                                    <a href="{{ result[5]|safe }}" target="_blank">
+                                        {{ result[2]|safe }}
+                                    </a>
+                                </span>
+                            </span>
+                                <span class="info">
+                            	<label>Class：</label>
+                                <span class="value">{{ result[6]|safe }}</span>
+                            </span>
+                                <span class="info">
+                            	<label>OwnerSteamId：</label>
+                                <span class="value">{{ result[-2]|safe }}</span>
+                            </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+            </div>
+        </div><!-- End of main -->
+    </div><!--End of bd-->
+        </div>
+    </div>
+
+
+<div id="foot">Copyright &copy; Ming Xia, Jack Knudson</div>
+<script src="/static/js/jquery-1.10.2.min.js"></script>
+<script src="/static/js/textSearch.js"></script>
+
 </body>
 </html>
