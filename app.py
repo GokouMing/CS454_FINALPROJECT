@@ -25,17 +25,32 @@ def homePage():  # put application's code here
             return render_template('index.html')
         else:
             rel, costtime = searchEngine.querySearch(query)
-            if not rel:
-                return '<h1>No Result<h1>'
-            else:
-                return render_template('Result.html', results=rel, searchquery=query, costTime=round(costtime, 5),
-                                       number=len(query))
+            return render_template('Result.html', results=rel, searchquery=query, costTime=round(costtime, 5),
+                                   number=len(rel))
     elif request.method == 'GET':
         auto = autoComplete.autoComplete()
         auto = fliterList(auto)
         return render_template('index.html', languages=auto)
     else:
         return render_template('index.html')
+
+
+# @app.route('/Result', methods=['POST', 'GET'])
+# def resultPage():  # put application's code here
+#     if request.method == 'POST':
+#         query = request.form.get(r'inputWords')
+#         if not query:
+#             return render_template('index.html')
+#         else:
+#             rel, costtime = searchEngine.querySearch(query)
+#             return render_template('Result.html', results=rel, searchquery=query, costTime=round(costtime, 5),
+#                                    number=len(rel))
+#     elif request.method == 'GET':
+#         auto = autoComplete.autoComplete()
+#         auto = fliterList(auto)
+#         return render_template('index.html', languages=auto)
+#     else:
+#         return render_template('index.html')
 
 
 if __name__ == '__main__':

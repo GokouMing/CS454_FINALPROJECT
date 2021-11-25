@@ -67,8 +67,8 @@
                 <div class="sideBarShowHide">
                     <a href="javascript:;" class="icon"></a>
                 </div>
-
             </div>
+
             <div class="resultArea">
                 <p class="resultTotal">
                     <span class="info">About&nbsp;<span class="totalResult">{{ number }}</span>
@@ -76,15 +76,19 @@
                 </p>
 
                 <div class="resultList" id="resultList">
-                    {% for result in results %}
 
+                    {% if number == 0 %}
+                        <p>Sorry ! No Result</p>
+                        <p>Please Check <a target="_blank" href="https://steamcommunity.com/ ">STEAM</a> Official Website</p>
+                    {% endif %}
+
+                    {% for result in results %}
                         <div class="resultItem">
                             <div class="itemHead">
                                 <a href="{{ result[-3]|safe}}" target="_blank" class="title">
                                     {{ result[0]|safe}}
                                 </a>
                                 <span class="divsion"></span>
-
                                 <span class="dependValue">
                             	<span class="label">wikiID：</span>
                                 <span class="value">{{ result[-1]|safe }}</span>
@@ -100,11 +104,7 @@
                             <div class="itemFoot">
                         	<span class="info">
                             	<label>Quality</label>
-                                <span class="value">
-                                    <a href="{{ result[5]|safe }}" target="_blank">
-                                        {{ result[2]|safe }}
-                                    </a>
-                                </span>
+                                <span class="value">{{ result[2]|safe }}</span>
                             </span>
                                 <span class="info">
                             	<label>Class：</label>
@@ -116,9 +116,22 @@
                             </span>
                             </div>
                         </div>
-                    {% endfor %}
 
+                        <!-- PAGINATION -->
+                        {% for page_num in cve.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                            {% if page_num %}
+                                {% if cve.page == page_num %}
+                                    <a class="btn btn-info mb-4" href="{{ url_for('cve_list', page=page_num) }}">{{ page_num }}</a>
+                                {% else %}
+                                    <a class="btn btn-outline-info mb-4" href="{{ url_for('cve_list', page=page_num) }}">{{ page_num }}</a>
+                                {% endif %}
+                            {% else %}
+                         {% endif %}
+                        {% endfor %}
+                        <!-- PAGINATION -->
+                    {% endfor %}
                 </div>
+
 
 
             </div>
