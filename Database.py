@@ -29,7 +29,7 @@ def dataBaseSetUp():
                   'Class', 'WikiId', 'OwnerUrl', 'OwnerSteamId', 'IconId']
 
         # clean the data each column filter null and place it
-        df.drop(df.query('Id.isnull() | CustomName.isnull() | Quality.isnull() |ItemHeader.isnull()'
+        df.drop(df.query('Id.isnull() | CustomName.isnull() | Quality.isnull()'
                          '|Class.isnull() | WikiId.isnull() | OwnerUrl.isnull() | OwnerSteamId.isnull()'
                          '|IconId.isnull() | Name.isnull()').index, inplace=True)
 
