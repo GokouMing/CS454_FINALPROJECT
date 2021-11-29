@@ -5,7 +5,6 @@ import re
 
 app = Flask(__name__)
 
-
 def fliterList(Lists):
     # tuple list to list
     lists = [item for items in Lists for item in items]
@@ -21,6 +20,10 @@ def fliterList(Lists):
 def homePage():  # put application's code here
     if request.method == 'POST':
         query = request.form.get(r'inputWords')
+        ad1 = request.form.get(r'class')
+        ad2 = request.form.get(r'quality')
+        ad3 = request.form.get(r'itemheader')
+        print(ad1, ad2, ad3)
         if not query:
             return render_template('Index.html')
         else:
@@ -47,22 +50,22 @@ def homePage():  # put application's code here
         return render_template('Index.html')
 
 
-# @app.route('/Result', methods=['POST', 'GET'])
-# def resultPage():  # put application's code here
-#     if request.method == 'POST':
-#         query = request.form.get(r'inputWords')
-#         if not query:
-#             return render_template('index.html')
-#         else:
-#             rel, costtime = searchEngine.querySearch(query)
-#             return render_template('Result.html', results=rel, searchquery=query, costTime=round(costtime, 5),
-#                                    number=len(rel))
-#     elif request.method == 'GET':
-#         auto = autoComplete.autoComplete()
-#         auto = fliterList(auto)
-#         return render_template('index.html', languages=auto)
-#     else:
-#         return render_template('index.html')
+@app.route('/result', methods=['POST', 'GET'])
+def resultPage():  # put application's code here
+    if request.method == 'POST':
+        query = request.form.get(r'inputWords')
+        if not query:
+            return render_template('index.html')
+        else:
+            rel, costtime = searchEngine.querySearch(query)
+            return render_template('temresult.html', results=rel, searchquery=query, costTime=round(costtime, 5),
+                                   number=len(rel))
+    elif request.method == 'GET':
+        auto = autoComplete.autoComplete()
+        auto = fliterList(auto)
+        return render_template('index.html', languages=auto)
+    else:
+        return render_template('index.html')
 
 
 if __name__ == '__main__':

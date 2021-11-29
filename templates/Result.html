@@ -9,7 +9,7 @@
 <body>
 
     <div id="hd" class="ue-clear">
-        <a href="/index/">
+        <a href="/">
             <div class="logo"></div>
         </a>
         <div class="inputArea">
@@ -41,7 +41,7 @@
                     </li>
 
                 </ul>
-                <div class="subfield">Relative</div>
+                <div class="subfield">Relative Link</div>
                 <ul class="subfieldContext">
                     <li>
                         <span class="name">
@@ -84,8 +84,7 @@
                     {% for result in results %}
                         <div class="resultItem">
                             <div class="itemHead">
-                                <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" 
-     height="auto">
+                                <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" height="auto">
                                 <a href="{{ result[0][-3]|safe}}" target="_blank" class="title">
                                     {{ result[0][0]|safe}}
                                 </a>
@@ -96,6 +95,7 @@
                             </span>
                             </div>
                             <div class="itemBody">
+                                <span class="label">Content：</span>
                                 {{ result[0][3]|safe }}
                                 <a href="{{ result[0][-3]|safe }} " target="_blank">
                                     <span class="text">more</span>
@@ -174,8 +174,8 @@
 <script src="/static/js/textSearch.js"></script>
 
 
-<script type="text/javascript">
-    $(".results").textSearch("{{ searchquery }}")
+<script src="/static/js/textSearch.js" type="text/javascript">
+    $(".resultsList").textSearch("{{ searchquery }}")
 </script>
 
 </body>
