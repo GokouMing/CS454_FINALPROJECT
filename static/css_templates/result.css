@@ -6,7 +6,7 @@ html{*overflow:auto;}
 /*input Area*/
 .inputArea{float:left;position:relative;}
 .inputArea .searchInput{border:1px solid #bfbfbf;padding:0 15px;outline:none;height:35px;*line-height:35px;width:350px; background:url(../img/inputbg.png);font-size:14px;}
-.inputArea .searchButton{position:absolute;left:410px;top:0;*top:1px;*left:381px;width:106px;height:38px;background:url(../img/searchicon.png) no-repeat;border:none;cursor:pointer;}
+.inputArea .searchButton{position:absolute;left:380px;top:0;*top:1px;*left:381px;width:106px;height:38px;background:url(../img/searchicon.png) no-repeat;border:none;cursor:pointer;}
 
 /*Back to AdvanceSearch*/
 .inputArea .advanced{position:absolute;font-size:14px;left:500px;top:12px;width:60px;text-decoration:underline;}
@@ -58,7 +58,7 @@ html{*overflow:auto;}
 .resultArea .resultList{padding-left:30px;}
 .resultArea .resultList .resultItem{margin-bottom:20px;}
 .resultArea .resultList .resultItem{margin-bottom:30px;}
-.resultArea .resultList .itemHead{margin-bottom:5px;color:#767676;} 
+.resultArea .resultList .itemHead{margin-bottom:-15px;color:#767676;}
 .resultArea .resultList .itemHead .keyWord{color:#d90909;}
 .resultArea .resultList .itemBody .keyWord{color:#d90909;}
 .resultArea .resultList .itemHead a.title{font-size:16px;color:#0080cc;text-decoration:underline;}
@@ -67,7 +67,7 @@ html{*overflow:auto;}
 .resultArea .resultList .itemHead .fileType{margin-right:10px;}
 
 /*Result*/
-.resultArea .resultList .itemBody{margin-bottom:5px;line-height:18px;width:90%;}
+.resultArea .resultList .itemBody{margin-bottom:5px;line-height:18px;width:75%;}
 .resultArea .resultList .itemFoot{color:#008000;}
 .resultArea .resultList .itemFoot .info{margin-right:10px;}
 

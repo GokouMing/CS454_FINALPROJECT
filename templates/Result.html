@@ -5,6 +5,8 @@
     <title>Result</title>
     <link href="/static/css_templates/style.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css_templates/result.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css_templates/foundation.css" rel="stylesheet" type="text/css"/>
+
 </head>
 <body>
 
@@ -13,8 +15,8 @@
             <div class="logo"></div>
         </a>
         <div class="inputArea">
-            <form method="post" action="#" enctype="multipart/form-data">
-                <input type="text" name="query" class="searchInput", value="{{ searchquery }}"/>
+            <form method="post" action="results" enctype="multipart/form-data">
+                <input type="text" name="Resultsearch" class="searchInput", value="{{ searchquery }}"/>
                 <button class="searchButton" type="submit", value="Search"></button>
             </form>
         </div>
@@ -59,7 +61,7 @@
                     </li>
                     <li>
                         <span class="name">
-                            <a target="_blank" href="/index/">
+                            <a target="_blank" href="/">
                                 &nbsp;TF2 Advance Search
                             </a></span>
                     </li>
@@ -73,6 +75,7 @@
                 <p class="resultTotal">
                     <span class="info">About&nbsp;<span class="totalResult">{{ number }}</span>
                         &nbsp;results (<span class="time">{{ costTime }}</span>seconds)</span>
+                        {{ pagination.info }}
                 </p>
 
                 <div class="resultList" id="resultList">
@@ -82,6 +85,7 @@
                     {% endif %}
 
                     {% for result in results %}
+{#                        {{ loop.index + pagination.skip }}#}
                         <div class="resultItem">
                             <div class="itemHead">
                                 <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" height="auto">
@@ -90,12 +94,12 @@
                                 </a>
                                 <span class="divsion"></span>
                                 <span class="dependValue">
-                            	<span class="label">wikiLink：</span>
+                            	<span class="label"> wikiLink:</span>
                                 <span class="value"><a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{result[0][6]}}">Team Fortress 2 Wiki</a></span>
                             </span>
                             </div>
                             <div class="itemBody">
-                                <span class="label">Content：</span>
+                                <span class="label">Content:</span>
                                 {{ result[0][3]|safe }}
                                 <a href="{{ result[0][-3]|safe }} " target="_blank">
                                     <span class="text">more</span>
@@ -103,34 +107,28 @@
                                 </a>
                             </div>
                             <div class="itemFoot">
-                        	<span class="info">
-                            	<label>Quality</label>
-                                <span class="value">{{ result[0][2]|safe }}</span>
-                            </span>
-                                <span class="info">
-                            	<label>Class：</label>
-                                <span class="value">{{ result[0][5]|safe }}</span>
-                            </span>
-                                <span class="info">
-                            	<label>OwnerSteamId：</label>
-                                <span class="value">{{ result[0][-2]|safe }}</span>
-                            </span>
+                                <span class="info"> <a>Quality: </a> <span class="value">{{ result[0][2]|safe}}</span> </span>
+                                <span class="value"><a>    </a>Class: <span class="value">{{ result[0][5]|safe }}  </span> </span>
+                                <span class="value"><a>    </a>OwnerSteamId: </a> <span class="value">{{ result[0][-2]|safe}}   </span> </span>
                             </div>
                         </div>
-
-{#                        <!-- PAGINATION -->#}
-{#                        {% for page_num in cve.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}#}
-{#                            {% if page_num %}#}
-{#                                {% if cve.page == page_num %}#}
-{#                                    <a class="btn btn-info mb-4" href="{{ url_for('cve_list', page=page_num) }}">{{ page_num }}</a>#}
-{#                                {% else %}#}
-{#                                    <a class="btn btn-outline-info mb-4" href="{{ url_for('cve_list', page=page_num) }}">{{ page_num }}</a>#}
-{#                                {% endif %}#}
-{#                            {% else %}#}
-{#                         {% endif %}#}
-{#                        {% endfor %}#}
-{#                        <!-- PAGINATION -->#}
                     {% endfor %}
+                </div>
+
+                <div class="pagination ue-clear">
+                    <nav aria-label="Pagination">
+                        <ul class="pagination pagination-lg">
+                        <li class="pagination-previous"><a href="#" aria-label="Previous page">Previous</a></li>
+                        <li><a href="#" aria-label="Page 2">1</a></li>
+                        <li><a href="#" aria-label="Page 2">2</a></li>
+                        <li><a href="#" aria-label="Page 3">3</a></li>
+                        <li><a href="#" aria-label="Page 4">4</a></li>
+                        <li class="ellipsis"></li>
+                        <li><a href="#" aria-label="Page 12">12</a></li>
+                        <li><a href="#" aria-label="Page 13">13</a></li>
+                        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                        </ul>
+                    </nav>
                 </div>
 
                 <div class="dependSearch ue-clear">
@@ -141,11 +139,11 @@
                                     <a href="/results?q={{ q }}"> {{ q }} </a>
                                 {% endfor %}
                             </p>
-{#                            <p>#}
-{#                                {% for q in similar_query2 %}#}
-{#                                    <a href="/results?q={{ q }}"> {{ q }} </a>#}
-{#                                {% endfor %}#}
-{#                            </p>#}
+                            <p>
+                                {% for q in similar_query2.split() %}
+                                    <a href="/results?q={{ q }}"> {{ q }} </a>
+                                {% endfor %}
+                            </p>
                         </div>
                 </div>
 
@@ -164,19 +162,14 @@
 
             </div>
         </div><!-- End of main -->
+
     </div><!--End of bd-->
         </div>
     </div>
 
 
 <div id="foot">Copyright &copy; Ming Xia, Jack Knudson</div>
-<script src="/static/js/jquery-1.10.2.min.js"></script>
-<script src="/static/js/textSearch.js"></script>
 
-
-<script src="/static/js/textSearch.js" type="text/javascript">
-    $(".resultsList").textSearch("{{ searchquery }}")
-</script>
 
 </body>
 </html>
