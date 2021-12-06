@@ -15,8 +15,8 @@
             <div class="logo"></div>
         </a>
         <div class="inputArea">
-            <form method="post" action="results" enctype="multipart/form-data">
-                <input type="text" name="Resultsearch" class="searchInput", value="{{ searchquery }}"/>
+            <form method="post" action="/" enctype="multipart/form-data">
+                <input type="text" name="inputWords" class="searchInput", value="{{ searchquery }}"/>
                 <button class="searchButton" type="submit", value="Search"></button>
             </form>
         </div>
@@ -29,19 +29,18 @@
                 <div class="subfield">Sort By</div>
                 <ul class="subfieldContext">
                     <li>
-                        <a href="/results?q={{ query }}&page=1&order=sim"
+                        <a href="/results?query={{ searchquery }}&order=bm25"
                            class="byDependence">BM25</a>
                     </li>
                     <li>
-                        <a href="/results?q={{ query }}&page=1&order=time"
-                           class="byTime">Time</a>
+                        <a href="/results?query={{ searchquery }}&&order=tfidf"
+                           class="byTime">wikiID</a>
 
                     </li>
                     <li>
-                        <a href="/results?q={{ query }}&page=1&order=view"
+                        <a href="/results?query={{ searchquery }}&order=view"
                            class="byDependence">Frequently</a>
                     </li>
-
                 </ul>
                 <div class="subfield">Relative Link</div>
                 <ul class="subfieldContext">
@@ -85,7 +84,7 @@
                     {% endif %}
 
                     {% for result in results %}
-{#                        {{ loop.index + pagination.skip }}#}
+                        {{ loop.index + pagination.skip }}
                         <div class="resultItem">
                             <div class="itemHead">
                                 <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" height="auto">
@@ -114,22 +113,8 @@
                         </div>
                     {% endfor %}
                 </div>
+            {{ pagination.links }}
 
-                <div class="pagination ue-clear">
-                    <nav aria-label="Pagination">
-                        <ul class="pagination pagination-lg">
-                        <li class="pagination-previous"><a href="#" aria-label="Previous page">Previous</a></li>
-                        <li><a href="#" aria-label="Page 2">1</a></li>
-                        <li><a href="#" aria-label="Page 2">2</a></li>
-                        <li><a href="#" aria-label="Page 3">3</a></li>
-                        <li><a href="#" aria-label="Page 4">4</a></li>
-                        <li class="ellipsis"></li>
-                        <li><a href="#" aria-label="Page 12">12</a></li>
-                        <li><a href="#" aria-label="Page 13">13</a></li>
-                        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-                        </ul>
-                    </nav>
-                </div>
 
                 <div class="dependSearch ue-clear">
                         <h6>Relative Result</h6>
