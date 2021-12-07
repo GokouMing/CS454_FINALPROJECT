@@ -28,6 +28,7 @@ def newList(list, offset=0, per_page=10):
 def homePage():  # put application's code here
     if request.method == 'POST':
         query = request.form.get(r'inputWords')
+        print(query)
         ad1 = request.form.get(r'class')
         if ad1:
             query = query + " " + ad1
@@ -67,7 +68,7 @@ def dataPage(query):
             searchE = 1
         else:
             searchE = 2
-    query = " ".join(list[:-4])
+    query = " ".join(list[:-3])
     print(query, searchE)
     ad3 = list[-1]
     ad2 = list[-2]
@@ -145,7 +146,6 @@ def dataPage(query):
                                 if ad2 in rel[i][2]:
                                     if ad3 in rel[i][3]:
                                         groups.append([rel[i]])
-
             page, per_page, offset = get_page_args(page_parameter='page',
                                                    per_page_parameter='per_page')
             total = len(groups)
@@ -161,12 +161,66 @@ def dataPage(query):
                                    number=total, similar_query1=query, similar_query2=query,
                                    pagination=pagination, page=page, per_page=per_page)
 
+@app.route('/groupPage')
+def groupPage():
+    group = request.args.get('group')
+
+    group = group.translate({ ord('['): None })
+    group = group.translate({ ord('('): None })
+    group = group.translate({ ord(')'): None })
+    group = group.translate({ ord(']'): None })
+    group = group.translate({ ord('}'): None })
+    group = group.translate({ ord('{'): None })
+    group = group.translate({ ord('\''): None })
+    group = group.translate({ ord('"'): None })
+    #Rebuild the Groups
+    print(group)
+    items = group.split(',')
+    print(items)
+    group = []
+    i = 0
+    while i < len(items):
+        j = 0
+        temp = []
+        while j <= 9:
+            print(i)
+            print(j)
+            if(items[i+j][0] == ' '):
+                items[i+j] = items[i+j][1:]
+            items[i+j] = re.sub('\\\\n', '', items[i+j])
+            items[i+j] = items[i+j].translate({ ord('\\'): None })
+            temp.append(items[i+j])
+            j += 1
+        if(len(group) > 50):
+            if(group[0][0] == temp[0][0]):
+                group.append(temp)
+        else:
+            group.append(temp)
+        i += 10
+    
+    page, per_page, offset = get_page_args(page_parameter='page',
+                                                   per_page_parameter='per_page')
+    costtime = 0
+    query = ""
+    total = len(group)
+    groups = newList(group, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page,
+                                    per_page=per_page,
+                                    offset=offset,
+                                    total=total,
+                                    css_framework='foundation',
+                                    record_name='groups')
+    return render_template('Groups.html', results=groups, searchquery=query, costTime=round(costtime, 5),
+                                   number=total, similar_query1=query, similar_query2=query,
+                                   pagination=pagination, page=page, per_page=per_page)
+
+
+
 
 @app.route('/results')
 def resultPage():  # put application's code here
     query = request.args.get('query')
     sortby = request.args.get('order')
-
     query = query+" "+sortby
     return redirect(url_for("dataPage", query=query))
 

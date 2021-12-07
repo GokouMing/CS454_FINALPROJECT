@@ -60,8 +60,8 @@
                     </li>
                     <li>
                         <span class="name">
-                            <a target="_blank" href="/">
-                                &nbsp;TF2 Advance Search
+                            <a href="/">
+                                &nbsp;Tf2 Advanced Search
                             </a></span>
                     </li>
                 </ul>
@@ -88,27 +88,27 @@
                         <div class="resultItem">
                             <div class="itemHead">
                                 <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" height="auto">
-                                <a href="{{ result[0][-3]|safe}}" target="_blank" class="title">
+                                <a href="/groupPage?group={{ result }}" target="_blank" class="title">
                                     {{ result[0][0]|safe}}
                                 </a>
                                 <span class="divsion"></span>
                                 <span class="dependValue">
                             	<span class="label"> wikiLink:</span>
-                                <span class="value"><a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{result[0][6]}}">Team Fortress 2 Wiki</a></span>
+                                <span class="value"><a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{result[0][6]}}" target="_blank">Team Fortress 2 Wiki</a></span>
                             </span>
                             </div>
                             <div class="itemBody">
-                                <span class="label">Content:</span>
-                                {{ result[0][3]|safe }}
-                                <a href="{{ result[0][-3]|safe }} " target="_blank">
+                                <span class="label">Custom Name: </span>
+                                {{ result[0][1]|safe }}
+                                <a href="/groupPage?group={{ result }}" target="_blank" class="title">
                                     <span class="text">more</span>
                                     <i class="moreIcon"></i>
                                 </a>
                             </div>
                             <div class="itemFoot">
-                                <span class="info"> <a>Quality: </a> <span class="value">{{ result[0][2]|safe}}</span> </span>
-                                <span class="value"><a>    </a>Class: <span class="value">{{ result[0][5]|safe }}  </span> </span>
-                                <span class="value"><a>    </a>OwnerSteamId: </a> <span class="value">{{ result[0][-2]|safe}}   </span> </span>
+                                <span class="info"> Quality: <span class="value">{{ result[0][2]|safe}}</span> </span>
+                                <span class="info">Class: <span class="value">{{ result[0][5]|safe }}  </span> </span>
+                                <span class="info">OwnerSteamId: </a> <span class="value">{{ result[0][-2]|safe}}   </span> </span>
                             </div>
                         </div>
                     {% endfor %}
