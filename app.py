@@ -7,7 +7,6 @@ from flask_paginate import Pagination, get_page_args
 app = Flask(__name__)
 
 
-
 def fliterList(Lists):
     # tuple list to list
     lists = [item for items in Lists for item in items]
@@ -20,6 +19,20 @@ def fliterList(Lists):
 
 def newList(list, offset=0, per_page=10):
     return list[offset: offset + per_page]
+
+
+def wordsCheck(inputlist):
+    if 'bm25' or 'tfidf' or 'view' or 'rel' in inputlist:
+        if "bm25" in inputlist:
+            searchE = 0
+        elif "tfidf" in inputlist:
+            searchE = 1
+        elif "view" in inputlist:
+            searchE = 2
+        else:
+            searchE = 5
+
+    return searchE
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -41,7 +54,6 @@ def homePage():  # put application's code here
             query = query + " " + ad3
         else:
             query = query + " " + 'None'
-        print(query)
         return redirect(url_for("dataPage", query=query))
 
     elif request.method == 'GET':
@@ -55,33 +67,21 @@ def homePage():  # put application's code here
 @app.route('/dataPage/<query>')
 def dataPage(query):
     list = query.split()
-    print(list[:-1])
-    print(list[:-2])
-    print(list[:-3])
+    relativeList = ['bm25', 'tfidf', 'view', 'rel']
+    newlist = [False for i in relativeList if i not in list]
 
-    print(len(list))
-    searchE = 5
-    if 'bm25' or 'tfidf' or 'view' or 'rel' in list:
-        if "bm25" in list:
-            searchE = 0
-        elif "tfidf" in list:
-            searchE = 1
-        elif "view" in list:
-            searchE = 2
-        else:
-            searchE = 5
-
-    if len(list) <= 3:
+    if 4 > len(newlist) > 0:
         query = " ".join(list[:-1])
         ad1 = 'None'
         ad2 = 'None'
         ad3 = 'None'
-        print(query)
     else:
         query = " ".join(list[:-3])
         ad3 = list[-1]
         ad2 = list[-2]
         ad1 = list[-3]
+
+    searchE = wordsCheck(list)
 
     adFlag = 0
     if ad1 != 'None':
@@ -93,24 +93,19 @@ def dataPage(query):
     if ad3 != 'None':
         if len(ad3) > 0:
             adFlag += 4
-    print(adFlag)
     if not query:
         return render_template('Index.html')
     else:
         if searchE == 0:
-            print(f'bm25 Search:   {query}')
             rel, costtime = searchEngine.queryBM25Search(query)
         elif searchE == 1:
-            print(f'wiki Search:   {query}')
             rel, costtime = searchEngine.queryWikiIdSearch(query)
         elif searchE == 2:
-            print(f'Frequency Search:   {query}')
             rel, costtime = searchEngine.queryFrqsearch(query)
         else:
-            print(f'Search:   {query}')
             rel, costtime = searchEngine.querySearch(query)
         if not rel:
-            return '<h1>No Result<h1>'
+            return render_template('404.html')
         else:
             groups = []
             for i in range(0, len(rel)):
