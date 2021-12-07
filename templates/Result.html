@@ -120,8 +120,8 @@
                         <h6>Relative Result</h6>
                         <div class="searchList">
                             <p>
-                                {% for q in similar_query1.split() %}
-                                    <a href="/results?query={{ q }}"> {{ q }} </a>
+                                {% for query in similar_query1.split() %}
+                                    <a href="/results?query={{ query }}"> {{ query }} </a>
                                 {% endfor %}
                             </p>
                         </div>
