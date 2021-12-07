@@ -6,9 +6,7 @@ from flask_paginate import Pagination, get_page_args
 
 app = Flask(__name__)
 
-ad1 = 'None'
-ad2 = 'None'
-ad3 = 'None'
+
 
 def fliterList(Lists):
     # tuple list to list
@@ -57,21 +55,34 @@ def homePage():  # put application's code here
 @app.route('/dataPage/<query>')
 def dataPage(query):
     list = query.split()
-    print(list)
+    print(list[:-1])
+    print(list[:-2])
+    print(list[:-3])
+
+    print(len(list))
     searchE = 5
-    if 'bm25' or 'tfidf' or 'view' in list:
-        query = " ".join(list[:-1])
+    if 'bm25' or 'tfidf' or 'view' or 'rel' in list:
         if "bm25" in list:
             searchE = 0
         elif "tfidf" in list:
             searchE = 1
-        else:
+        elif "view" in list:
             searchE = 2
-    query = " ".join(list[:-4])
-    print(query, searchE)
-    ad3 = list[-1]
-    ad2 = list[-2]
-    ad1 = list[-3]
+        else:
+            searchE = 5
+
+    if len(list) <= 3:
+        query = " ".join(list[:-1])
+        ad1 = 'None'
+        ad2 = 'None'
+        ad3 = 'None'
+        print(query)
+    else:
+        query = " ".join(list[:-3])
+        ad3 = list[-1]
+        ad2 = list[-2]
+        ad1 = list[-3]
+
     adFlag = 0
     if ad1 != 'None':
         if len(ad1) > 0:
@@ -87,12 +98,16 @@ def dataPage(query):
         return render_template('Index.html')
     else:
         if searchE == 0:
+            print(f'bm25 Search:   {query}')
             rel, costtime = searchEngine.queryBM25Search(query)
         elif searchE == 1:
+            print(f'wiki Search:   {query}')
             rel, costtime = searchEngine.queryWikiIdSearch(query)
         elif searchE == 2:
-            rel, costtime = searchEngine.querySearch(query)
+            print(f'Frequency Search:   {query}')
+            rel, costtime = searchEngine.queryFrqsearch(query)
         else:
+            print(f'Search:   {query}')
             rel, costtime = searchEngine.querySearch(query)
         if not rel:
             return '<h1>No Result<h1>'
@@ -167,7 +182,11 @@ def resultPage():  # put application's code here
     query = request.args.get('query')
     sortby = request.args.get('order')
 
-    query = query+" "+sortby
+    if not sortby:
+        query = query + " " + "rel"
+    else:
+        query = query + " " + sortby
+
     return redirect(url_for("dataPage", query=query))
 
 

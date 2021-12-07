@@ -121,12 +121,7 @@
                         <div class="searchList">
                             <p>
                                 {% for q in similar_query1.split() %}
-                                    <a href="/results?q={{ q }}"> {{ q }} </a>
-                                {% endfor %}
-                            </p>
-                            <p>
-                                {% for q in similar_query2.split() %}
-                                    <a href="/results?q={{ q }}"> {{ q }} </a>
+                                    <a href="/results?query={{ q }}"> {{ q }} </a>
                                 {% endfor %}
                             </p>
                         </div>
@@ -139,7 +134,7 @@
                     <ul class="historyList">
                         {% for query in similar_query1.split() %}
                             <li>&nbsp;&nbsp;
-                                <a href="/results?q={{ query }}"> {{ query }} </a>
+                                <a href="/results?query={{ query }}"> {{ query }} </a>
                             </li>
                         {% endfor %}
                     </ul>
