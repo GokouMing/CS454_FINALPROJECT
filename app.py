@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import searchEngine
 import autoComplete
 import re
+import string
 from flask_paginate import Pagination, get_page_args
 
 app = Flask(__name__)
@@ -167,66 +168,28 @@ def dataPage(query):
                                     css_framework='foundation',
                                     record_name='groups')
 
+            datas = groups[:3]
+            print(datas)
+            relist = []
+            for data in datas:
+                biglist = []
+                for items in data:
+                    tuplelist = []
+                    for item in items:
+                        item = str(item)
+                        string = item.replace('<b>', '')
+                        string = string.replace('</b>', '')
+                        tuplelist.append(string)
+                    tuplelist = tuple(tuplelist)
+                    biglist.append(tuplelist)
+                relist.append(biglist)
+            print(relist)
+
             return render_template('Result.html', results=groups, searchquery=query, costTime=round(costtime, 5),
-                                   number=total, similar_query1=query, similar_query2=query,
+                                   number=total, similar_query1=query, newresults=relist,
                                    pagination=pagination, page=page, per_page=per_page)
 
-@app.route('/groupPage')
-def groupPage():
-    group = request.args.get('group')
 
-    group = group.translate({ ord('['): None })
-    group = group.translate({ ord('('): None })
-    group = group.translate({ ord(')'): None })
-    group = group.translate({ ord(']'): None })
-    group = group.translate({ ord('}'): None })
-    group = group.translate({ ord('{'): None })
-    group = group.translate({ ord('\''): None })
-    group = group.translate({ ord('"'): None })
-    #Rebuild the Groups
-    print(group)
-    items = group.split(',')
-    print(items)
-    group = []
-    i = 0
-    while i < len(items):
-        j = 0
-        temp = []
-        while j <= 9:
-            print(i)
-            print(j)
-            if(i+j > len(items)-1):
-                break
-            if(items[i+j] == None):
-                break
-            if(items[i+j][0] == ' '):
-                items[i+j] = items[i+j][1:]
-            items[i+j] = re.sub('\\\\n', '', items[i+j])
-            items[i+j] = items[i+j].translate({ ord('\\'): None })
-            temp.append(items[i+j])
-            j += 1
-        if(len(group) > 50):
-            if(group[0][0] == temp[0][0]):
-                group.append(temp)
-        else:
-            group.append(temp)
-        i += 10
-
-    page, per_page, offset = get_page_args(page_parameter='page',
-                                                   per_page_parameter='per_page')
-    costtime = 0
-    query = ""
-    total = len(group)
-    groups = newList(group, offset=offset, per_page=per_page)
-    pagination = Pagination(page=page,
-                                    per_page=per_page,
-                                    offset=offset,
-                                    total=total,
-                                    css_framework='foundation',
-                                    record_name='groups')
-    return render_template('Groups.html', results=groups, searchquery=query, costTime=round(costtime, 5),
-                                   number=total, similar_query1=query, similar_query2=query,
-                                   pagination=pagination, page=page, per_page=per_page)
 @app.route('/results')
 def resultPage():  # put application's code here
     query = request.args.get('query')
