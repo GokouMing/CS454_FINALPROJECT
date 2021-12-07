@@ -60,8 +60,8 @@
                     </li>
                     <li>
                         <span class="name">
-                            <a target="_blank" href="/">
-                                &nbsp;TF2 Advance Search
+                            <a href="/">
+                                &nbsp;Tf2 Advanced Search
                             </a></span>
                     </li>
                 </ul>
@@ -87,62 +87,33 @@
                         {{ loop.index + pagination.skip }}
                         <div class="resultItem">
                             <div class="itemHead">
-                                <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" height="auto">
-                                <a href="{{ result[0][-3]|safe}}" target="_blank" class="title">
-                                    {{ result[0][0]|safe}}
+                                <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[9]}}" width="100" height="auto">
+                                <a href="{{ result[-3]|safe }}" target="_blank" class="title">
+                                    {{ result[1]|safe}}
                                 </a>
                                 <span class="divsion"></span>
                                 <span class="dependValue">
                             	<span class="label"> wikiLink:</span>
-                                <span class="value"><a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{result[0][6]}}">Team Fortress 2 Wiki</a></span>
+                                <span class="value"><a href="https://wiki.teamfortress.com/scripts/itemredirect.php?id={{result[6]}}" target="_blank">Team Fortress 2 Wiki</a></span>
                             </span>
                             </div>
                             <div class="itemBody">
-                                <span class="label">Content:</span>
-                                {{ result[0][3]|safe }}
-                                <a href="{{ result[0][-3]|safe }} " target="_blank">
+                                <span class="label">Description: </span>
+                                {{ result[3]|safe }}
+                                <a href="{{ result[-3]|safe }}" target="_blank">
                                     <span class="text">more</span>
                                     <i class="moreIcon"></i>
                                 </a>
                             </div>
                             <div class="itemFoot">
-                                <span class="info"> <a>Quality: </a> <span class="value">{{ result[0][2]|safe}}</span> </span>
-                                <span class="value"><a>    </a>Class: <span class="value">{{ result[0][5]|safe }}  </span> </span>
-                                <span class="value"><a>    </a>OwnerSteamId: </a> <span class="value">{{ result[0][-2]|safe}}   </span> </span>
+                                <span class="info">Quality:  <span class="value">{{ result[2]|safe}}</span> </span>
+                                <span class="value">Class: <span class="value">{{ result[5]|safe }}  </span> </span>
+                                <span class="value">OwnerSteamId: </a> <span class="value">{{ result[-2]|safe}}   </span> </span>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
             {{ pagination.links }}
-
-
-                <div class="dependSearch ue-clear">
-                        <h6>Relative Result</h6>
-                        <div class="searchList">
-                            <p>
-                                {% for query in similar_query1.split() %}
-                                    <a href="/results?query={{ query }}"> {{ query }} </a>
-                                {% endfor %}
-                            </p>
-                        </div>
-                </div>
-
-                        </div>
-            <div class="historyArea">
-                <div class="hotSearch">
-                    <h6>TF ADs</h6>
-                    <ul class="historyList">
-                        {% for result in results[:3] %}
-                            <li>&nbsp;&nbsp;
-                                <img src="https://steamcommunity-a.akamaihd.net/economy/image/{{result[0][9]}}" width="100" height="auto">
-                                <a href="/results?query={{ searchquery }}"> <label>{{ result[0][0]|safe}}</label></a>
-
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-            </div>
         </div><!-- End of main -->
 
     </div><!--End of bd-->
