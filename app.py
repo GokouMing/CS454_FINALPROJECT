@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 import searchEngine
 import autoComplete
 import re
-import string
 from flask_paginate import Pagination, get_page_args
 
 app = Flask(__name__)
